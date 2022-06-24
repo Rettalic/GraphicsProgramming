@@ -117,8 +117,8 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
-    int width  = 800;
-    int height = 600;
+    int width  = 1920;
+    int height = 1080;
 
     GLFWwindow* window = glfwCreateWindow(width, height, "Pc heater enabler", nullptr, nullptr);
 

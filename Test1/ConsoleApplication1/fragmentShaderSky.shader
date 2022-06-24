@@ -15,7 +15,7 @@ void main() {
 	vec3 lightDir = normalize(lightDirection);
 	vec3 viewDirection = normalize(worldPixel.xyz - cameraPosition);
 
-	vec3 top = vec3(68 / 255.0, 118 / 255.0, 189 / 255.0);
+	vec3 top = vec3(68  / 255.0, 118 / 255.0, 189 / 255.0);
 	vec3 bot = vec3(188 / 255.0, 214 / 255.0, 231 / 255.0);
 
 	float sun = pow(max(dot(-viewDirection, lightDir), 0.0), 256);
