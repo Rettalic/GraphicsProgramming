@@ -1,13 +1,13 @@
 #pragma once
 void loadFromFile(const char* url, char** target) {
 	std::ifstream stream(url, std::ios::binary);    //open binary file stream
-	stream.seekg(0, stream.end);    // seek to end of file
-	int total = stream.tellg();     // retrieve length of file
-	*target = new char[total + 1];  // create buffer length + 1
-	stream.seekg(0, stream.beg);    // seek to start of file
-	stream.read(*target, total);    // read length of file into buffer
-	(*target)[total] = '\0';        // length + 1 is the "null terminator"
-	stream.close();                 // close stream
+	stream.seekg(0, stream.end);				    // seek to end of file
+	int total = stream.tellg();					    // retrieve length of file
+	*target = new char[total + 1];					// create buffer length + 1
+	stream.seekg(0, stream.beg);					// seek to start of file
+	stream.read(*target, total);					// read length of file into buffer
+	(*target)[total] = '\0';						// length + 1 is the "null terminator"
+	stream.close();									// close stream
 }
 unsigned int loadTexture(std::string url, GLenum type, int comp)
 {
@@ -16,13 +16,11 @@ unsigned int loadTexture(std::string url, GLenum type, int comp)
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	// Set Texture Params
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-		GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// STBI Load From File
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load(url.c_str(), &width, &height, &nrChannels,
-		comp);
+	unsigned char* data = stbi_load(url.c_str(), &width, &height, &nrChannels, comp);
 	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type,
 			GL_UNSIGNED_BYTE, data);
@@ -60,20 +58,13 @@ unsigned int GeneratePlane(const char* heightmap, GLenum format, int comp, float
 	float* vertices = new float[(width * height) * 8];
 	unsigned int* indices = new unsigned int[(width - 1) * (height - 1) * 6];
 	int index = 0;
+
 	for (int i = 0; i < (width * height); i++) {
 		int x = i % width;
 		int z = i / width;
 		// position
 		vertices[index++] = (float)x * xzScale;
-		//if (data) {
-		// unsigned char* pixelOffset = data + (x + width * z) * comp;
-		// unsigned char r = pixelOffset[0];
-		//
-		// vertices[index++] = ((int)r / 255.0f) * hScale;
-		//}
-		//else {
 		vertices[index++] = 0.0f;
-		//}
 		vertices[index++] = (float)z * xzScale;
 		// normal
 		vertices[index++] = 0.0f;
@@ -84,7 +75,7 @@ unsigned int GeneratePlane(const char* heightmap, GLenum format, int comp, float
 		vertices[index++] = ((float)z) / (height - 1);
 	}
 
-	// TODO: Calculate Normals
+	// Calculate Normals
 	for (int i = 0; i < (width * height); i++) {
 		int x = i % width;
 		int z = i / width;
@@ -93,6 +84,7 @@ unsigned int GeneratePlane(const char* heightmap, GLenum format, int comp, float
 		vPos.y = vertices[i * 8 + 1];
 		vPos.z = vertices[i * 8 + 2];
 		glm::vec3 normal;
+
 		//bottom-right corner
 		if (x == width - 1 && z == height - 1) {
 			glm::vec3 lPos, uPos;
@@ -117,6 +109,7 @@ unsigned int GeneratePlane(const char* heightmap, GLenum format, int comp, float
 			normal = glm::cross(glm::normalize(rPos - vPos),
 				glm::normalize(uPos - vPos));
 		}
+
 		//right
 		else if (x == width - 1) {
 			glm::vec3 lPos, dPos;
@@ -129,6 +122,7 @@ unsigned int GeneratePlane(const char* heightmap, GLenum format, int comp, float
 			normal = glm::cross(glm::normalize(lPos - vPos),
 				glm::normalize(dPos - vPos));
 		}
+		
 		//rest
 		else {
 			glm::vec3 rPos, dPos;

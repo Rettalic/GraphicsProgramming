@@ -31,8 +31,6 @@ void main()
 
     float light = max(dot(-lightDir, Normals), 0.0);
 
-    //clip(light - 0.5);
-
     vec3 viewDir = normalize(cameraPosition - FragPos.rgb);
     vec3 refl = reflect(lightDir, Normals);
 
